@@ -261,18 +261,17 @@ if __name__ == '__main__':  #test code
 ##            orientation = sense.get_orientation_degrees()
 ##            return_string += (",pitch={pitch},roll={roll},yaw={yaw}".format(**orientation))
 
-            CPU_TEMP = getCPUtemperature()
-            return_string += (",cpu_temp=%0.0f" % CPU_TEMP)
+#            CPU_TEMP = getCPUtemperature()
+#            return_string += (",cpu_temp=%0.0f" % CPU_TEMP)
             
 ##            return_string += (",wifi_signal=%0.0f" % signal_level)
 
-#            print(return_string)
-
             if (return_string != last_return_string):
+                print(return_string)
                 UDP_client.sendMessage(return_string)
                 last_return_string = return_string
 
-            time.sleep(1)
+            time.sleep(0.75)
 
             GPIO.output(17, GPIO.HIGH)
             GPIO.output(18, GPIO.HIGH)
@@ -281,7 +280,7 @@ if __name__ == '__main__':  #test code
             GPIO.output(24, GPIO.HIGH)
             GPIO.output(25, GPIO.HIGH)
 
-            time.sleep(1)
+            time.sleep(0.75)
             
     #############################
     # End main while loop
