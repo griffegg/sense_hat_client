@@ -191,6 +191,14 @@ if __name__ == '__main__':  #test code
 
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(20, GPIO.IN)
+    GPIO.setup(17, GPIO.OUT)
+    GPIO.setup(18, GPIO.OUT)
+    GPIO.setup(27, GPIO.OUT)
+    GPIO.setup(23, GPIO.OUT)
+    GPIO.setup(24, GPIO.OUT)
+    GPIO.setup(25, GPIO.OUT)
+
+    GPIO.output(17, GPIO.LOW)
 
 ##    host_name = socket.gethostname()
 ##    host_ip = socket.gethostbyname(host_name)
@@ -210,6 +218,7 @@ if __name__ == '__main__':  #test code
     try:
         done = False
         return_string = "null event"
+        last_return_string = return_string
 
         print "pool and spa client running..."
         
@@ -222,6 +231,14 @@ if __name__ == '__main__':  #test code
             return_string = "valve=pool"
 
             if (not GPIO.input(20)):
+
+                GPIO.output(17, GPIO.LOW)
+                GPIO.output(18, GPIO.LOW)
+                GPIO.output(27, GPIO.LOW)
+                GPIO.output(23, GPIO.LOW)
+                GPIO.output(24, GPIO.LOW)
+                GPIO.output(25, GPIO.LOW)
+
                 return_string = "valve=spa"
 ##                sense.show_message("SPA!", text_colour=yellow, back_colour=red)                
 ##                time.sleep(1)
@@ -249,11 +266,23 @@ if __name__ == '__main__':  #test code
             
 ##            return_string += (",wifi_signal=%0.0f" % signal_level)
 
-            print(return_string)
-            
-            UDP_client.sendMessage(return_string)
-            time.sleep(5)
+#            print(return_string)
 
+            if (return_string != last_return_string):
+                UDP_client.sendMessage(return_string)
+                last_return_string = return_string
+
+            time.sleep(1)
+
+            GPIO.output(17, GPIO.HIGH)
+            GPIO.output(18, GPIO.HIGH)
+            GPIO.output(27, GPIO.HIGH)
+            GPIO.output(23, GPIO.HIGH)
+            GPIO.output(24, GPIO.HIGH)
+            GPIO.output(25, GPIO.HIGH)
+
+            time.sleep(1)
+            
     #############################
     # End main while loop
     #############################
